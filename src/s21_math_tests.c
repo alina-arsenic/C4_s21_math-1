@@ -51,7 +51,7 @@ START_TEST(s21_abs_test) {
     for (; arr_length; arr_length--) {
         int tmp_i = arr[arr_length - 1];
         ck_assert_int_eq(s21_abs(tmp_i), abs(tmp_i));
-        ck_assert_int_eq(s21_abs(tmp_i), abs(tmp_i));
+        ck_assert_int_eq(s21_abs(-tmp_i), abs(-tmp_i));
         // printf(" %d i=%d\n", tmp_i, arr_length - 1);
         // printf("# %d\n", -tmp_i);
     }
