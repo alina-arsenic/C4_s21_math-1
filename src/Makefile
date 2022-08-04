@@ -3,7 +3,7 @@ CFLAGS=-Wall -Werror -Wextra
 all: clean s21_math.a #test gcov_report
 
 s21_math.a:
-	gcc -c *.c
+	gcc $(CFLAGS) -c *.c
 	ar rcs s21_math.a *.o
 	rm *.o
 	ranlib s21_math.a
