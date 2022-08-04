@@ -15,7 +15,6 @@ HEADERS1=$(SOURCES1:.c=.h)
 HEADERS2=$(SOURCES2:.c=.h)
 EXECUTABLE=$(SOURCES2:.c=)
 LIBS=$(OBJECTS1:.o=.a)
-A=1
 
 UNAME=$(shell uname -s)
 ifeq ($(UNAME), Darwin)
@@ -62,7 +61,7 @@ test: clean style_check $(TOBJECTS)
 	rm -f *.o
 
 .c.o:
-	$(CC) $(CFLAGS)  -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 gcov_report: clean test
 	$(GCOV) -a -f $(SOURCES1:.c=.gcno) >> ./tests/coverage.txt

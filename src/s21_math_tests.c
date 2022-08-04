@@ -41,7 +41,21 @@ START_TEST(s21_cat_test) {
 }
 END_TEST*/
 
-START_TEST(s21_abs_test) { ck_assert_int_eq(s21_abs(1), abs(1)); }
+START_TEST(s21_abs_test) {
+    int arr[] = {
+        INT8_MAX, INT16_MAX, INT32_MAX, INT8_MIN, INT16_MIN, INT32_MIN,
+    };
+    int arr_length = sizeof(arr) / sizeof(arr[0]);
+    ck_assert_int_eq(s21_abs(1), abs(1));
+    ck_assert_int_eq(s21_abs(0), abs(0));
+    for (; arr_length; arr_length--) {
+        int tmp_i = arr[arr_length - 1];
+        ck_assert_int_eq(s21_abs(tmp_i), abs(tmp_i));
+        ck_assert_int_eq(s21_abs(tmp_i), abs(tmp_i));
+        // printf(" %d i=%d\n", tmp_i, arr_length - 1);
+        // printf("# %d\n", -tmp_i);
+    }
+}
 END_TEST
 
 Suite *s21_suite() {
