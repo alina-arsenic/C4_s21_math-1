@@ -9,6 +9,7 @@ nidorina@student.21-school.ru
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #include "./s21_math.h"
 
@@ -58,12 +59,31 @@ START_TEST(s21_abs_test) {
 }
 END_TEST
 
+START_TEST(s21_ceil_test) {
+    srand((unsigned int)time(NULL));
+    long double x = s21_MINUSINF;
+    ck_assert_ldouble_eq(s21_ceil(x), ceil(x));
+    x = s21_INF;
+    ck_assert_ldouble_eq(s21_ceil(x), ceil(x));
+    x = s21_NAN;
+    ck_assert_ldouble_nan(s21_ceil(x));
+    for (int i = 0; i < 200; i++) {
+        x = ((long double)rand() / (long double)(RAND_MAX)) * INT16_MAX;
+        ck_assert_ldouble_eq(s21_ceil(x), ceil(x));
+        x = -((long double)rand() / (long double)(RAND_MAX)) * INT16_MAX;
+        ck_assert_ldouble_eq(s21_ceil(x), ceil(x));
+        // printf("%.7Lf\n", x);
+    }
+}
+END_TEST
+
 Suite *s21_suite() {
     Suite *s;
     s = suite_create("math_Suite");
 
     TCase *tc_core = tcase_create("math");
     tcase_add_test(tc_core, s21_abs_test);
+    tcase_add_test(tc_core, s21_ceil_test);
     suite_add_tcase(s, tc_core);
 
     return s;
