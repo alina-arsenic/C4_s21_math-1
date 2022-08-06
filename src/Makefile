@@ -15,7 +15,6 @@ s21_math.a: clean
 	ranlib s21_math.a
 
 test: s21_math.a
-	rm -rf test/*.c
 	for NAME in $(FUNC_NAMES); do \
 		if [ -f "test/$${NAME}_test.check" ] ; then \
 			checkmk test/$${NAME}_test.check > test/$${NAME}_test.c; \
