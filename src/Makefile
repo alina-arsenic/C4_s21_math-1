@@ -37,12 +37,3 @@ clean:
 	rm -f *.gcno
 	rm -f *.a
 	rm -fr gcov_report
-
-style_check:
-	cp ../materials/linters/CPPLINT.cfg ./
-	python3 ../materials/linters/cpplint.py *.c *.h
-	rm -f ./CPPLINT.cfg
-# cppcheck *.c *.h
-
-miniverter:
-	cd ../materials/build; sudo sh ./run.sh; cd ../../src
