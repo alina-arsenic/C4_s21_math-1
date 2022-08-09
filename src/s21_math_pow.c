@@ -4,17 +4,17 @@
 long double s21_pow(double base, double exp);
 
 int main () {
-    double x = 2;
-    double y = 512;
-    printf("%Lf\n", s21_pow(x, y));
-    printf("%f\n", pow(x, y));
+    double x = 2.13;
+    double y = 3;
+    printf("%.16Lf\n", s21_pow(x, y));
+    printf("%.16f\n", pow(x, y));
     return 0;
 }
 
 long double s21_pow(double base, double exp) {
-    double res = base;
+    long double res = base;
     if (exp != 0) {
-        for (double i = exp > 0 ? exp : exp * -1; i > 1; i--) {
+        for (int i = exp > 0 ? exp : exp * -1; i > 1; i--) {
             res *= base;
         }
     } else {
