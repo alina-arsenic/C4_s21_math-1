@@ -6,7 +6,6 @@ nidorina@student.21-school.ru
 */
 #include "./s21_math.h"
 
-#include <math.h>
 #include <stdio.h>
 
 int s21_abs(int i) { return i >= 0 ? i : -i; }
@@ -43,7 +42,7 @@ long double s21_asin(double x) {
     } else if (fabs_x > 0 && fabs_x <= 0.5) {
         answer = tailor_row_asin(x);
     } else if (fabs_x > 0.5 && fabs_x < 1) {
-        x = pow(((1 - x) / 2), 0.5);
+        x = s21_sqrt(((1 - x) / 2));
         answer = tailor_row_asin(x);
         answer = (s21_PI / 2) - (2 * answer);
     }
@@ -61,4 +60,25 @@ long double tailor_row_asin(long double x) {
         answer += tailor_n2;
     }
     return answer;
+}
+
+long double s21_sqrt(double x) {
+    double result = 0;
+    double right = x;
+    if (x != x || x < 0) {
+        result = s21_NAN;
+    } else if (x == 0) {
+        result = x;
+    } else {
+        if (x < 1) right = 1;
+        while (right - result > 1e-9) {
+            double root = (right + result) / 2;
+            if (root * root > x) {
+                right = root;
+            } else {
+                result = root;
+            }
+        }
+    }
+    return result;
 }

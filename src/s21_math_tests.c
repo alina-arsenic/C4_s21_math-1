@@ -92,7 +92,7 @@ START_TEST(s21_asin_test) {
     for (int i = 0; i < 200; i++) {
         sign = -sign;
         x = ((long double)rand() / (long double)(RAND_MAX)) * sign;
-        // printf("count=%d, s21=%0.7Lf, orig=%Lf\n", i, a, b);
+        // printf("count=%d, s21=%0.7Lf, orig=%f\n", i, s21_asin(x), asin(x));
         ck_assert_ldouble_eq_tol(s21_asin(x), asin(x), 1e-7);
         x = -((long double)rand() / (long double)(RAND_MAX)) * sign;
         ck_assert_ldouble_eq_tol(s21_asin(x), asin(x), 1e-7);

@@ -19,5 +19,6 @@ int s21_isnan(long double number);
 long double s21_fabs(double x);
 long double s21_asin(double x);
 long double tailor_row_asin(long double x);
+long double s21_sqrt(double x);
 
 #endif  // SRC_S21_MATH_H_
