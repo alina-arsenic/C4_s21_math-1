@@ -44,7 +44,7 @@ END_TEST*/
 
 START_TEST(s21_abs_test) {
     int arr[] = {
-        INT8_MAX, INT16_MAX, INT32_MAX, INT8_MIN, INT16_MIN, INT32_MIN,
+        INT8_MAX, INT16_MAX, INT32_MAX, INT8_MIN, INT16_MIN, INT32_MIN, 0,
     };
     int arr_length = sizeof(arr) / sizeof(arr[0]);
     ck_assert_int_eq(s21_abs(1), abs(1));
@@ -76,6 +76,29 @@ START_TEST(s21_ceil_test) {
     }
 }
 END_TEST
+START_TEST(s21_asin_test) {
+    srand((unsigned int)time(NULL));
+    long double x = 0;
+    ck_assert_ldouble_eq(s21_asin(x), asin(x));
+    x = -1;
+    ck_assert_ldouble_eq(s21_asin(x), asin(x));
+    x = 1;
+    ck_assert_ldouble_eq(s21_asin(x), asin(x));
+    x = 1.1;
+    ck_assert_ldouble_nan(s21_asin(x));
+    x = 0.9998234;
+    ck_assert_ldouble_eq_tol(s21_asin(x), asin(x), 1e-7);
+    int sign = -1;
+    for (int i = 0; i < 200; i++) {
+        sign = -sign;
+        x = ((long double)rand() / (long double)(RAND_MAX)) * sign;
+        // printf("count=%d, s21=%0.7Lf, orig=%Lf\n", i, a, b);
+        ck_assert_ldouble_eq_tol(s21_asin(x), asin(x), 1e-7);
+        x = -((long double)rand() / (long double)(RAND_MAX)) * sign;
+        ck_assert_ldouble_eq_tol(s21_asin(x), asin(x), 1e-7);
+    }
+}
+END_TEST
 
 Suite *s21_suite() {
     Suite *s;
@@ -84,6 +107,7 @@ Suite *s21_suite() {
     TCase *tc_core = tcase_create("math");
     tcase_add_test(tc_core, s21_abs_test);
     tcase_add_test(tc_core, s21_ceil_test);
+    tcase_add_test(tc_core, s21_asin_test);
     suite_add_tcase(s, tc_core);
 
     return s;
