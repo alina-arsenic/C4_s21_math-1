@@ -71,7 +71,7 @@ gcov_report: clean test
 
 
 valgrind: test 
-#	CK_FORK='no leaks' '--atExit' '--' $(EXECUTABLE2) cc Makefile
+#	CK_FORK='no leaks' '--atExit' '--' $(EXECUTABLE) cc Makefile
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=./tests/RESULT_VALGRIND.txt ./$(EXECUTABLE) > ./tests/res1.t
 	tail -n 1 ./tests/RESULT_VALGRIND.txt
 
@@ -90,3 +90,10 @@ style_check:
 git:
 	git push
 	git push mygitserver
+
+sanitizer: $(SOURCES2) $(SOURCES1) 
+	$(CC) $(CFLAGS) -fsanitize=address -g $^ -o $(EXECUTABLE) $(TST_FLAGS)
+	./$(EXECUTABLE)
+
+miniverter:
+	bash ../materials/build/run.sh

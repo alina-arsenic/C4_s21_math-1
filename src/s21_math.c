@@ -53,8 +53,7 @@ long double s21_asin(double x) {
 long double tailor_row_asin(long double x) {
     long double answer = x;
     long double tailor_n2 = x;
-    int n = 1;
-    for (; s21_fabs(tailor_n2) > s21_EPS; n++) {
+    for (int n = 1; s21_fabs(tailor_n2) > s21_EPS; n++) {
         tailor_n2 *= (2 * n - 1) * (2 * n - 1) * x * x;
         tailor_n2 /= 2 * n * (2 * n + 1);
         answer += tailor_n2;
