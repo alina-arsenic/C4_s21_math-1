@@ -2,9 +2,11 @@
 #include <stdio.h>
 #include <stdint.h>
 
-#define S21_M_PI       3.14159265358979323846   // pi
+#define S21_M_PI 3.14159265358979323846264338327950288   // pi
 #define S21_M_PI_2     1.57079632673412561417   // pi/2
 #define S21_M_PI_4     0.785398163397448309616  // pi/4
+
+#define EPS 1e-17
 
 static const double
 S1  = -1.66666666666666324348e-01, /* 0xBFC55555, 0x55555549 */
@@ -144,7 +146,7 @@ int __rem_pio2_large(double *x, double *y, int e0, int nx)
 		}
 	}
 
-	printf("jz = %d\n", jz);
+	//printf("jz = %d\n", jz);
 
 	// chop off zero terms
 	if (z == 0.0) {
@@ -166,7 +168,7 @@ int __rem_pio2_large(double *x, double *y, int e0, int nx)
 			iq[jz] = (int32_t)z;
 	}
 
-	printf("jz = %d\n", jz);
+	//printf("jz = %d\n", jz);
 
 	/* convert integer "bit" chunk to floating-point value */
 	fw = scalbn(1.0,q0);
@@ -259,11 +261,24 @@ int medium(double x, double *y) {
     return n;
 }
 
-int small(double x, double y) {
-    int sign = (x < 0) ? -1 : 1;
-    int n = sign*floor(fabs(x)/S21_M_PI_4);
-    y = x - n*S21_M_PI_2;
-    return n;
+double small(double x) {
+    x = fmod(x, 2*S21_M_PI);
+    long double result = 1;
+    long double xx = x*x;
+    long double fact = 2;
+    long double fact_mul = 2;
+    long double add = 1;
+    int sign = -1;
+    int i = 1;
+    while (fabs(add) > EPS) {
+        add = sign*(pow(xx, i))/(fact);
+        result += add;
+        sign *= -1;
+        fact *= ++fact_mul;
+        fact *= ++fact_mul;
+        i++;
+    }
+    return (double)result;
 }
 
 double __s21_cos(double x)
@@ -298,14 +313,14 @@ double s21_cos(double x)
     if (!isnormal(x)) {  // x is inf or NaN
 		y[0] = y[1] = x - x;
 	} else if (ax <= 9*S21_M_PI_4) {
-        n = small(x, y[0]);
+        return small(x);
     } else if (ax < pow(2, 20)*S21_M_PI_2) { 
         n = medium(x, y);
     } else {
         n = large(x, y);
     }
 
-	printf("n = %d, y[0] = %lf\n", n, y[0]);
+	//printf("n = %d, y[0] = %lf\n", n, y[0]);
 
 	switch (n&3) {
 	case 0: return  __s21_cos(y[0]);
@@ -317,15 +332,20 @@ double s21_cos(double x)
 }
 
 int main() {
-    double x[] = {0.000001, 9999999999999999, 9999999999.999999, 1111111111111111, 1000000
-	-0.000001, -9999999999999999, -9999999999.999999, -1111111111111111, -1000000, 0, S21_M_PI, S21_M_PI_2, 2*S21_M_PI};
-    for (int i = 0; i < 9; i++) {
-        printf("%d. %lf\n%lf %lf\n\n", i, x[i], s21_cos(x[i]), cos(x[i]));
+    double xx = 0.1111111111111111;
+    for (int i = 0; i < 17; i++) {
+        printf("%24lf : %10lf %10lf\n", xx, s21_cos(xx), cos(xx));
+        xx *= 10;
     }
-    double xx;
-    /*while (1) {
-        scanf("%lf", &xx);
-        printf("%lf %lf\n", s21_cos(xx), cos(xx));
-    }*/
+    xx = 0.9999999999999999;
+    for (int i = 0; i < 17; i++) {
+        printf("%24lf : %10lf %10lf\n", xx, s21_cos(xx), cos(xx));
+        xx *= 10;
+    }
+    xx = 0.1;
+    for (int i = 0; i < 17; i++) {
+        printf("%24lf : %10lf %10lf\n", xx, s21_cos(xx), cos(xx));
+        xx *= 10;
+    }
     return 0;
 }
