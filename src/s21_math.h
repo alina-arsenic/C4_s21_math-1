@@ -15,6 +15,11 @@
 #define S21_M_SQRT2    1.41421356237309504880   // sqrt(2)
 #define S21_M_SQRT1_2  0.707106781186547524401  // 1/sqrt(2)
 
+#define S21_NAN 0.0 / 0.0
+#define S21_INFINITY 1.0 / 0.0
+#define S21_NEG_INFINITY -1.0 / 0.0
+#define S21_E 2.71828182845904523536
+
 int s21_abs(int x);  // вычисляет абсолютное значение целого числа
 long double s21_acos(double x);   // вычисляет арккосинус
 long double s21_asin(double x);   // вычисляет арксинус
