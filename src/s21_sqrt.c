@@ -1,5 +1,5 @@
+// by yoghurtb
 #include "s21_math.h"
-
 
 long double s21_sqrt(double x) {
     double result = 0;
@@ -12,7 +12,7 @@ long double s21_sqrt(double x) {
     } else {
         if (x < 1)
             right = 1;
-        while (right - result > 1e-7) {
+        while (right - result > S21_EPS) {
             root = (right + result)/2;
             if (root * root  > x) {
                 right = root;

@@ -1,6 +1,5 @@
 #include "s21_tests.h"
 
-
 START_TEST(test_s21_sqrt1) {
     long double s21_result = s21_sqrt(-1.0);
     long double result = sqrt(-1.0);
@@ -68,8 +67,8 @@ START_TEST(test_s21_sqrt11) {
 } END_TEST
 
 START_TEST(test_s21_sqrt12) {
-    long double s21_result = s21_sqrt(S21_E);
-    long double result = sqrt(S21_E);
+    long double s21_result = s21_sqrt(S21_M_E);
+    long double result = sqrt(S21_M_E);
     ck_assert_ldouble_eq_tol(s21_result, result, 1e-6);
 } END_TEST
 

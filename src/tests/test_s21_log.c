@@ -1,9 +1,8 @@
 #include "s21_tests.h"
 
-
 START_TEST(test_s21_log1) {
-    long double s21_result = s21_log(S21_E);
-    long double result = log(S21_E);
+    long double s21_result = s21_log(S21_M_E);
+    long double result = log(S21_M_E);
     ck_assert_ldouble_eq(s21_result, result);
 } END_TEST
 
@@ -47,8 +46,8 @@ START_TEST(test_s21_log8) {
 } END_TEST
 
 START_TEST(test_s21_log9) {
-    long double s21_result = s21_log(S21_E*5);
-    long double result = log(S21_E*5);
+    long double s21_result = s21_log(S21_M_E*5);
+    long double result = log(S21_M_E*5);
     ck_assert_ldouble_eq_tol(s21_result, result, 1e-6);
 } END_TEST
 

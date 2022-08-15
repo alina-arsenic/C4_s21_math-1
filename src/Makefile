@@ -20,7 +20,7 @@ s21_math.a: $(OBJ) s21_math.h
 	ar rcs $@ $(OBJ)
 	ranlib $@
 
-test: s21_math.a test/s21_test.h
+test: s21_math.a
 	$(CC) $(TESTS_SRC) -o test_check $(CFLAGS) $(TFLAGS) s21_math.a
 	./test_check
 
