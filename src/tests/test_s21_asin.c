@@ -18,15 +18,6 @@ START_TEST(test_s21_asin) {
     ck_assert_ldouble_nan(s21_asin(x));
     x = 0.9998234;
     ck_assert_ldouble_lt(fabsl(s21_asin(x) - asin(x)), 1e-5);
-    /*int sign = -1;
-    for (int i = 0; i < 200; i++) {
-        sign = -sign;
-        x = ((long double)rand() / (long double)(RAND_MAX)) * sign;
-         printf("count=%d, s21=%0.7Lf, orig=%f\n", i, s21_asin(x), asin(x));
-        ck_assert_ldouble_lt(fabsl(s21_asin(x) - asin(x)), 1e-5);
-        x = -((long double)rand() / (long double)(RAND_MAX)) * sign;
-        ck_assert_ldouble_lt(fabsl(s21_asin(x) - asin(x)), 1e-5);
-    }*/
 }
 END_TEST
 

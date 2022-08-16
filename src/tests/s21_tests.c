@@ -9,6 +9,9 @@ int main(void) {
     Suite *abs;
     Suite *ceil;
     Suite *asin;
+    Suite *sin;
+    Suite *acos;
+    Suite *exp;
     SRunner *sr;
 
     fabs = s21_fabs_suite();
@@ -17,6 +20,9 @@ int main(void) {
     abs = s21_abs_suite();
     ceil = s21_ceil_suite();
     asin = s21_asin_suite();
+    sin = s21_sin_suite();
+    acos = s21_acos_suite();
+    exp = s21_exp_suite();
 
     sr = srunner_create(fabs);
     srunner_add_suite(sr, log);
@@ -24,6 +30,9 @@ int main(void) {
     srunner_add_suite(sr, abs);
     srunner_add_suite(sr, ceil);
     srunner_add_suite(sr, asin);
+    srunner_add_suite(sr, sin);
+    srunner_add_suite(sr, acos);
+    srunner_add_suite(sr, exp);
     srunner_run_all(sr, CK_ENV);
     number_failed = srunner_ntests_failed(sr);
     srunner_free(sr);

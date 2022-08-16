@@ -14,5 +14,8 @@ Suite *s21_sqrt_suite(void);
 Suite *s21_ceil_suite(void);
 Suite *s21_abs_suite(void);
 Suite *s21_asin_suite(void);
+Suite *s21_sin_suite(void);
+Suite *s21_exp_suite(void);
+Suite *s21_acos_suite(void);
 
 #endif  // SRC_TESTS_S21_TESTS_H_
