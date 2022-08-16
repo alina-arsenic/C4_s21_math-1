@@ -6,6 +6,8 @@ SRC = s21_*.c
 OBJ = s21_*.o
 TESTS_SRC = tests/*.c
 
+SOURCES1=*.c
+
 ifeq ($(PLATFORM), Linux)
 OPEN = xdg-open 
 else
@@ -19,15 +21,17 @@ s21_math.a: $(OBJ) s21_math.h
 	gcc $(CFLAGS) -c $(SRC)
 	ar rcs $@ $(OBJ)
 	ranlib $@
+	rm -f *.o
 
 test: s21_math.a
-	$(CC) $(TESTS_SRC) -o test_check $(CFLAGS) $(TFLAGS) s21_math.a
-	./test_check
+	$(CC) $(TESTS_SRC) $(SRC) -o ./tests/test_check $(CFLAGS) $(TFLAGS) s21_math.a
+	./tests/test_check
 
 gcov_report: test
-	lcov -t "gcov_report" -o test.info -c -d .
-	genhtml -o gcov_report test.info
-	$(OPEN) ./gcov_report/index.html
+	lcov -t "./tests/test_check" -o gcov.info -c -d .
+	genhtml -o gcov_report gcov.info
+	@rm -rf ./*.gc*
+	$(OPEN) gcov_report/index.html
 
 style_check:
 	cppcheck *.c *.h
@@ -39,7 +43,7 @@ miniverter:
 	cd ../materials/build; sudo sh ./run.sh; cd ../../src
 
 clean:
-	rm -f test_check
+	rm -f ./tests/test_check
 	rm -f *.info
 	rm -f *.o
 	rm -f *.gcda

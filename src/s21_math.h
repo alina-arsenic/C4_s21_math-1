@@ -20,16 +20,13 @@
 #define S21_INFINITY 1.0 / 0.0
 
 #define s21_isnormal(x)    \
-    sizeof (x) == sizeof(double) ? __inline_isnormald((double)(x))    \
-                                 : __inline_isnormal ((long double)(x)))
+    __builtin_isnormal((double)(x))
 
 #define s21_isinf(x)    \
-    sizeof (x) == sizeof(double) ? __inline_isinfd((double)(x))    \
-                                 : __inline_isinf ((long double)(x)))
+    __builtin_isinf((double)(x))
 
 #define s21_isnan(x)    \
-    sizeof (x) == sizeof(double) ? __inline_isnand((double)(x))    \
-                                 : __inline_isnan ((long double)(x)))
+    __builtin_isnan((double)(x))
 
 int s21_abs(int x);  // вычисляет абсолютное значение целого числа
 long double s21_acos(double x);   // вычисляет арккосинус
