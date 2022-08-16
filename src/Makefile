@@ -1,43 +1,52 @@
-#Makefile
-CC=gcc
-CFLAGS=-c -Wall -Werror -Wextra -g -std=c11
-TEST_LIBS=-lcheck -lpthread -lrt -lm -lsubunit
-GCOV_FLAGS=-fprofile-arcs -ftest-coverage
+CC = gcc
+PLATFORM := $(shell uname)
+CFLAGS = -Wall -Werror -Wextra -std=c11
+TFLAGS = `pkg-config --cflags --libs check` -lc -lm -lgcov --coverage
+SRC = s21_*.c
+OBJ = s21_*.o
+TESTS_SRC = tests/*.c
 
-all: test s21_math.a gcov_report
+SOURCES1=*.c
 
-s21_math.a: s21_math.o
-	ar rc s21_math.a s21_math.o
-	ranlib s21_math.a
+ifeq ($(PLATFORM), Linux)
+OPEN = xdg-open 
+else
+OPEN = open
+endif
 
-s21_math.o: s21_math.c s21_math.h
-	$(CC) $(CFLAGS) -o s21_math.o s21_math.c
+all: clean s21_math.a test gcov_report
 
-gcov_s21_math.a: gcov_s21_math.o
-	ar rc gcov_s21_math.a gcov_s21_math.o
-	ranlib gcov_s21_math.a
+s21_math.a: $(OBJ) s21_math.h
+	echo $(OBJ)
+	gcc $(CFLAGS) -c $(SRC)
+	ar rcs $@ $(OBJ)
+	ranlib $@
+	rm -f *.o
 
-gcov_s21_math.o: s21_math.c s21_math.h
-	$(CC) $(CFLAGS) $(GCOV_FLAGS) -o gcov_s21_math.o s21_math.c
+test: s21_math.a
+	$(CC) $(TESTS_SRC) $(SRC) -o ./tests/test_check $(CFLAGS) $(TFLAGS) s21_math.a
+	./tests/test_check
 
-test: s21_math.a unittests_s21_math.o
-	$(CC) unittests_s21_math.o -o test $(TEST_LIBS) -L. s21_math.a -fsanitize=address
+gcov_report: test
+	lcov -t "./tests/test_check" -o gcov.info -c -d .
+	genhtml -o gcov_report gcov.info
+	@rm -rf ./*.gc*
+	$(OPEN) gcov_report/index.html
 
-gcov_test: gcov_s21_math.a unittests_s21_math.o
-	$(CC) unittests_s21_math.o $(GCOV_FLAGS) -o gcov_test $(TEST_LIBS) -L. gcov_s21_math.a -fsanitize=address
+style_check:
+	cppcheck *.c *.h
+	cp ../materials/linters/CPPLINT.cfg ./
+	python3 ../materials/linters/cpplint.py *.c *.h
+	rm -f ./CPPLINT.cfg
 
-unittests_s21_math.o: unittests_s21_math.c
-	$(CC) $(CFLAGS) -o unittests_s21_math.o unittests_s21_math.c  
-
-gcov_report: gcov_test
-	./gcov_test
-	gcovr --html-details -o gcov_report.html
-
-rebuild: clean all
-
-style:
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=VALGR_1.txt ./gcov_test
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=VALGR_2.txt ./test
+miniverter:
+	cd ../materials/build; sudo sh ./run.sh; cd ../../src
 
 clean:
-	rm -f *.o *.a *.gcda *.gcno *test *.html *.css *.txt
+	rm -f ./tests/test_check
+	rm -f *.info
+	rm -f *.o
+	rm -f *.gcda
+	rm -f *.gcno
+	rm -f *.a
+	rm -fr gcov_report
