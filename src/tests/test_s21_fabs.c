@@ -1,6 +1,5 @@
 #include "s21_tests.h"
 
-
 START_TEST(test_s21_fabs1) {
     long double s21_result = s21_fabs(-1.0);
     long double result = fabs(-1.0);

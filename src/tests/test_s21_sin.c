@@ -6,7 +6,7 @@ START_TEST(s21_sin_0001) {
 } END_TEST
 
 START_TEST(s21_sin_0002) {
-   ck_assert_double_eq_tol(s21_sin(0.0), sin(0), 1e-6);;
+    ck_assert_double_eq_tol(s21_sin(0.0), sin(0), 1e-6);;
 } END_TEST
 
 START_TEST(s21_sin_0003) {

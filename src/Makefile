@@ -36,11 +36,14 @@ gcov_report: test
 style_check:
 	cppcheck *.c *.h
 	cp ../materials/linters/CPPLINT.cfg ./
-	python3 ../materials/linters/cpplint.py *.c *.h
+	python3 ../materials/linters/cpplint.py *.c *.h tests/*.c tests/*.h
 	rm -f ./CPPLINT.cfg
 
 miniverter:
 	cd ../materials/build; sudo sh ./run.sh; cd ../../src
+
+valgrind:
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=VALGR.txt ./tests/test_check
 
 clean:
 	rm -f ./tests/test_check
