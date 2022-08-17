@@ -17,7 +17,6 @@ endif
 all: clean s21_math.a test gcov_report
 
 s21_math.a: $(OBJ) s21_math.h
-	echo $(OBJ)
 	gcc $(CFLAGS) -c $(SRC)
 	ar rcs $@ $(OBJ)
 	ranlib $@
