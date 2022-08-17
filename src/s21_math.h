@@ -1,6 +1,8 @@
 #ifndef SRC_S21_MATH_H_
 #define SRC_S21_MATH_H_
 
+#include <float.h>
+
 #define S21_M_E         2.71828182845904523536028747135266250   // e
 #define S21_M_LOG2E     1.44269504088896340735992468100189214   // log2(e)
 #define S21_M_LOG10E    0.434294481903251827651128918916605082  // log10(e)
@@ -16,6 +18,7 @@
 #define S21_M_SQRT1_2   0.707106781186547524400844362104849039  // 1/sqrt(2)
 
 #define S21_EPS 1e-8
+#define S21_ACCUR 1e-13
 #define S21_NAN 0.0 / 0.0
 #define S21_INFINITY 1.0 / 0.0
 
@@ -27,6 +30,8 @@
 
 #define s21_isnan(x)    \
     __builtin_isnan((double)(x))
+
+#define is_finite(x) __builtin_isfinite(x)
 
 int s21_abs(int x);  // вычисляет абсолютное значение целого числа
 long double s21_acos(double x);   // вычисляет арккосинус
