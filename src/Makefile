@@ -49,7 +49,7 @@ clean:
 	rm -f ./tests/test_check
 	rm -f *.info
 	rm -f *.o
-	rm -f *.gcda
-	rm -f *.gcno
+	rm -f *.gcda tests/*.gcda
+	rm -f *.gcno tests/*.gcno
 	rm -f *.a
 	rm -fr gcov_report

@@ -51,6 +51,18 @@ START_TEST(s21_exp_0005) {
 }
 END_TEST
 
+START_TEST(s21_exp_0006) {
+  double x = 777;
+    ck_assert_ldouble_infinite(s21_exp(x));
+}
+END_TEST
+
+START_TEST(s21_exp_0007) {
+  double x = -99;
+    ck_assert_ldouble_eq_tol(exp(x), s21_exp(x), S21_EPS);
+}
+END_TEST
+
 Suite *s21_exp_suite(void) {
     Suite *exp = suite_create("s21_exp");
     TCase *tc_s21_exp;
@@ -60,6 +72,8 @@ Suite *s21_exp_suite(void) {
     tcase_add_test(tc_s21_exp, s21_exp_0003);
     tcase_add_test(tc_s21_exp, s21_exp_0004);
     tcase_add_test(tc_s21_exp, s21_exp_0005);
+    tcase_add_test(tc_s21_exp, s21_exp_0006);
+    tcase_add_test(tc_s21_exp, s21_exp_0007);
     suite_add_tcase(exp, tc_s21_exp);
     return exp;
 }

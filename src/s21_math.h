@@ -22,14 +22,11 @@
 #define S21_NAN 0.0 / 0.0
 #define S21_INFINITY 1.0 / 0.0
 
-#define s21_isnormal(x)    \
-    __builtin_isnormal((double)(x))
+#define s21_isnormal(x) __builtin_isnormal((double)(x))
 
-#define s21_isinf(x)    \
-    __builtin_isinf((double)(x))
+#define s21_isinf(x) __builtin_isinf((double)(x))
 
-#define s21_isnan(x)    \
-    __builtin_isnan((double)(x))
+#define s21_isnan(x) __builtin_isnan((double)(x))
 
 #define is_finite(x) __builtin_isfinite(x)
 
