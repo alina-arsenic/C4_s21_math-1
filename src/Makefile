@@ -45,6 +45,7 @@ valgrind:
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=VALGR.txt ./tests/test_check
 
 clean:
+	rm -f ./CPPLINT.cfg
 	rm -f ./tests/test_check
 	rm -f *.info
 	rm -f *.o
